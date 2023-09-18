@@ -106,7 +106,6 @@
         @endphp
     @endforeach
 @endif
-
 </body>
 
 </html>

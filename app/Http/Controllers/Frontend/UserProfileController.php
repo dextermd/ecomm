@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use File;
 
-class ProfileController extends Controller
+class UserProfileController extends Controller
 {
     public function index()
     {
-        return view('admin.profile.index');
+        return view('frontend.dashboard.profile');
     }
 
     public function updateProfile(Request $request)
@@ -45,7 +44,6 @@ class ProfileController extends Controller
         return redirect()->back();
     }
 
-    /* Update Password */
     public function updatePassword(Request $request)
     {
         $request->validate([
