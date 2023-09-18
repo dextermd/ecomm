@@ -23,14 +23,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="container">
-                                    <div class="card">
-                                        <div class="card-header">Manage Sliders</div>
-                                        <div class="card-body">
-                                            {{ $dataTable->table() }}
-                                        </div>
-                                    </div>
-                                </div>
+                                {{ $dataTable->table() }}
                             </div>
 
                         </div>
@@ -44,3 +37,4 @@
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
+
