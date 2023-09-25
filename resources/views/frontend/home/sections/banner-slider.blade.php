@@ -4,36 +4,24 @@
             <div class="col-xl-12">
                 <div class="wsus__banner_content">
                     <div class="row banner_slider">
-                        <div class="col-xl-12">
-                            <div class="wsus__single_slider" style="background: url({{asset('frontend/images/slider_1.jpg')}});">
-                                <div class="wsus__single_slider_text">
-                                    <h3>new arrivals</h3>
-                                    <h1>men's fashion</h1>
-                                    <h6>start at $99.00</h6>
-                                    <a class="common_btn" href="#">shop now</a>
+                        @foreach( $sliders as $slider)
+                            <div class="col-xl-12">
+                                <div class="wsus__single_slider" style="background: url({{asset($slider->banner)}});">
+                                    <div class="wsus__single_slider_text">
+                                        @if($slider->text_top)
+                                            <h3>{!! $slider->text_top !!}</h3>
+                                        @endif
+                                        @if($slider->text_center)
+                                            <h1>{!! $slider->text_center !!}}</h1>
+                                        @endif
+                                        @if($slider->text_bottom)
+                                            <h6>{!! $slider->text_bottom !!}}</h6>
+                                        @endif
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xl-12">
-                            <div class="wsus__single_slider" style="background: url({{asset('frontend/images/slider_2.jpg')}});">
-                                <div class="wsus__single_slider_text">
-                                    <h3>new arrivals</h3>
-                                    <h1>kid's fashion</h1>
-                                    <h6>start at $49.00</h6>
-                                    <a class="common_btn" href="#">shop now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-12">
-                            <div class="wsus__single_slider" style="background: url({{asset('frontend/images/slider_3.jpg')}});">
-                                <div class="wsus__single_slider_text">
-                                    <h3>new arrivals</h3>
-                                    <h1>winter collection</h1>
-                                    <h6>start at $99</h6>
-                                    <a class="common_btn" href="#">shop now</a>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

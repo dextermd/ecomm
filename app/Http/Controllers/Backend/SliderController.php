@@ -34,10 +34,10 @@ class SliderController extends Controller
     {
         $request->validate([
             'banner' => ['required', 'image', 'max:2000'],
-            'text_top' => ['string', 'max:200'],
-            'text_center' => ['string', 'max:200'],
-            'text_bottom' => ['string', 'max:200'],
-            'url' => ['url'],
+            'text_top' => ['nullable', 'string', 'max:200'],
+            'text_center' => ['nullable', 'string', 'max:200'],
+            'text_bottom' => ['nullable', 'string', 'max:200'],
+            'url' => ['nullable', 'url'],
             'serial' => ['required'],
             'status' => ['required'],
         ]);
@@ -60,7 +60,7 @@ class SliderController extends Controller
 
         toastr('Created Successfully!', 'success');
 
-        return redirect()->back();
+        return redirect()->route('admin.slider.index');
     }
 
     /**
@@ -76,7 +76,8 @@ class SliderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $slider = Slider::findOrFail($id);
+        return view('admin.slider.edit', compact('slider'));
     }
 
     /**
@@ -84,7 +85,35 @@ class SliderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'banner' => ['nullable','image', 'max:2000'],
+            'text_top' => ['nullable', 'string', 'max:200'],
+            'text_center' => ['nullable', 'string', 'max:200'],
+            'text_bottom' => ['nullable', 'string', 'max:200'],
+            'url' => ['nullable','url'],
+            'serial' => ['required'],
+            'status' => ['required'],
+        ]);
+
+        $slider = Slider::findOrFail($id);
+
+        /* Handle file update */
+        $imagePath = $this->updateImage($request, 'banner', 'uploads/sliders', $slider->banner);
+
+        $slider->banner = empty(!$imagePath) ? $imagePath : $slider->banner;
+        $slider->text_top = $request->text_top;
+        $slider->text_center = $request->text_center;
+        $slider->text_bottom = $request->text_bottom;
+        $slider->text_top = $request->text_top;
+        $slider->url = $request->url;
+        $slider->serial = $request->serial;
+        $slider->status = $request->status;
+
+        $slider->save();
+
+        toastr('Updated Successfully!', 'success');
+
+        return redirect()->route('admin.slider.index');
     }
 
     /**
@@ -92,6 +121,16 @@ class SliderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $slider = Slider::findOrFail($id);
+            $imageName = $slider->banner;
+
+            if ($slider->delete())
+                $this->deleteImage($imageName);
+
+            return response(['status' => 'success', 'message' => 'Slider deleted successfully']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => 'Slider not found']);
+        }
     }
 }
