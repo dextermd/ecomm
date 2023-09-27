@@ -12,10 +12,10 @@
                                             <h3>{!! $slider->text_top !!}</h3>
                                         @endif
                                         @if($slider->text_center)
-                                            <h1>{!! $slider->text_center !!}}</h1>
+                                            <h1>{!! $slider->text_center !!}</h1>
                                         @endif
                                         @if($slider->text_bottom)
-                                            <h6>{!! $slider->text_bottom !!}}</h6>
+                                            <h6>{!! $slider->text_bottom !!}</h6>
                                         @endif
 
                                     </div>
