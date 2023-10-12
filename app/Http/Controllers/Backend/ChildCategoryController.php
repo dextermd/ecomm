@@ -95,7 +95,7 @@ class ChildCategoryController extends Controller
         $childCategory->status = $request->status;
         $childCategory->save();
 
-        toastr('Updated Successfully!', 'success');
+        toastr('Обновлено успешно!', 'success');
         return redirect()->route('admin.child-category.index');
     }
 
@@ -107,7 +107,7 @@ class ChildCategoryController extends Controller
         $childCategory = ChildCategory::findOrFail($id);
         $childCategory->delete();
 
-        return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        return response(['status' => 'success', 'message' => 'Удалено успешно.']);
     }
     public function changeStatus(Request $request)
     {
@@ -115,7 +115,7 @@ class ChildCategoryController extends Controller
         $childCategory->status = $request->status == 'true' ? 1 : 0;
         $childCategory->save();
 
-        return response(['message' => 'Status has been updated!', 'status'=> 'success']);
+        return response(['message' => 'Статус был обновлен!', 'status'=> 'success']);
     }
 
     public function getSubcategories(Request $request)

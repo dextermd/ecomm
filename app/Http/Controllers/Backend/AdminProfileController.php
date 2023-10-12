@@ -41,7 +41,7 @@ class AdminProfileController extends Controller
         $user->email = $request->email;
         $user->save();
 
-        toastr()->success('Profile Updated Successfully!');
+        toastr()->success('Профиль успешно обновлен!');
         return redirect()->back();
     }
 
@@ -57,7 +57,7 @@ class AdminProfileController extends Controller
             'password' => bcrypt($request->password)
         ])) {
             auth()->logout();
-            toastr()->success('Profile Password Updated Successfully!');
+            toastr()->success('Пароль профиля успешно обновлен!');
             return redirect(route('admin.login'));
         } else {
             // Обновление пароля не удалось

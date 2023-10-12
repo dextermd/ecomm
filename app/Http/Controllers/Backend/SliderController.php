@@ -58,7 +58,7 @@ class SliderController extends Controller
 
         $slider->save();
 
-        toastr('Created Successfully!', 'success');
+        toastr('Создано успешно!', 'success');
 
         return redirect()->route('admin.slider.index');
     }
@@ -111,7 +111,7 @@ class SliderController extends Controller
 
         $slider->save();
 
-        toastr('Updated Successfully!', 'success');
+        toastr('Обновлено успешно!', 'success');
 
         return redirect()->route('admin.slider.index');
     }
@@ -128,9 +128,9 @@ class SliderController extends Controller
             if ($slider->delete())
                 $this->deleteImage($imageName);
 
-            return response(['status' => 'success', 'message' => 'Slider deleted successfully']);
+            return response(['status' => 'success', 'message' => 'Слайдер успешно удален.']);
         } catch (\Exception $e) {
-            return response(['status' => 'error', 'message' => 'Slider not found']);
+            return response(['status' => 'error', 'message' => 'Слайдер не найден.']);
         }
     }
 }

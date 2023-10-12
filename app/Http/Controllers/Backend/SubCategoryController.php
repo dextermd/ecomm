@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\DataTables\SubCategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\ChildCategory;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -86,19 +87,20 @@ class SubCategoryController extends Controller
         $subCategory->status = $request->status;
         $subCategory->save();
 
-        toastr('Updated Successfully!', 'success');
+        toastr('Обновлено успешно!', 'success');
         return redirect()->route('admin.sub-category.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $subCategory = SubCategory::findOrFail($id);
-        $subCategory->delete();
+        $childCategory = ChildCategory::where('sub_category_id', $subCategory->id)->count();
+        if ($childCategory > 0){
+            return response(['status'=> 'error', 'message' => 'Эта подкатегория содержит дочерние категории. Для удаления данной категории необходимо сначала удалить все её дочерние категории.']);
+        }
 
-        return response(['status' => 'success', 'message' =>'Deleted Successfully']);
+        $subCategory->delete();
+        return response(['status' => 'success', 'message' =>'Удалено успешно.']);
     }
 
     public function changeStatus(Request $request)
@@ -108,6 +110,6 @@ class SubCategoryController extends Controller
         $subCategory->save();
 
 
-        return response(['message' => 'Status has been updated!', 'status'=> 'success']);
+        return response(['message' => 'Статус был обновлен!', 'status'=> 'success']);
     }
 }

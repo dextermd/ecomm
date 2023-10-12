@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Backend;
 use App\DataTables\CategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -90,15 +91,15 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
+        $subCategory = SubCategory::where('category_id', $category->id)->count();
+        if ($subCategory > 0){
+            return response(['status'=> 'error', 'message' => 'Эта категория включает в себя подкатегории, для удаления категории необходимо сначала удалить подкатегории!']);
+        }
         $category->delete();
-
-        return response(['status'=> 'success', 'message' => 'Deleted Successfully']);
+        return response(['status'=> 'success', 'message' => 'Удалено успешно.']);
     }
 
     public function changeStatus(Request $request)
@@ -108,6 +109,6 @@ class CategoryController extends Controller
         $category->save();
 
 
-        return response(['message' => 'Status has been updated!', 'status'=> 'success']);
+        return response(['message' => 'Статус был обновлен!', 'status'=> 'success']);
     }
 }
