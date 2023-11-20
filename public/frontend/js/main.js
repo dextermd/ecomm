@@ -32,7 +32,6 @@ $(function () {
         $('.toggle_menu').toggleClass('.show_category');
     });
 
-
     //=======POP_UP========
     $("#cross").on("click", function () {
         $("#wsus__pop_up").fadeOut();
