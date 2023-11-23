@@ -22,7 +22,34 @@ class BrandDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'brand.action')
+            ->addColumn('action', function ($query){
+                $editBtn = "<a href='".route('admin.brand.edit', $query->id)."' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='".route('admin.brand.destroy', $query->id)."' class='btn btn-danger ml-2 delete-item'><i class='fa fa-trash'></i></a>";
+                return $editBtn.$deleteBtn;
+            })
+            ->addColumn('logo', function ($query){
+                return $img = "<img height='30px' width='100px' src='".asset($query->logo)."' ></img>";
+            })
+            ->addColumn('status', function ($query){
+                if ($query->status == 1) {
+                    $button = '<label class="custom-switch mt-2">
+                        <input type="checkbox" checked name="custom-switch-checkbox" class="custom-switch-input change-status" data-id="'.$query->id.'">
+                        <span class="custom-switch-indicator"></span>
+                    </label>';
+                }else {
+                    $button = '<label class="custom-switch mt-2">
+                        <input type="checkbox"  name="custom-switch-checkbox" data-id="'.$query->id.'" class="custom-switch-input change-status">
+                        <span class="custom-switch-indicator"></span>
+                    </label>';
+                }
+                return $button;
+            })
+            ->addColumn('is_featured', function ($query){
+                $yes = '<i class="badge badge-success">Yes</i>';
+                $no = '<i class="badge badge-danger">No</i>';
+                return $query->is_featured ? $yes : $no;
+            })
+            ->rawColumns(['logo', 'action', 'is_featured', 'status'])
             ->setRowId('id');
     }
 
@@ -62,15 +89,17 @@ class BrandDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('logo'),
+            Column::make('name'),
+            Column::make('is_featured'),
+            Column::make('status'),
+
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center'),
         ];
     }
 
